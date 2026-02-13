@@ -25,40 +25,39 @@ void setup() {
 }
 
 void loop() {
-  colorRangeTest();
+  gridTest();
+
 }
 
-void colorRangeTest() {
-  int t = 2000;
-
-  setRange(red, 1, 64);
-  sleep(t);
-  clear();
-  setRange(yellow, 1, 32);
-  sleep(t);
-  clear();
-  setRange(green, 1, 16);
-  sleep(t);
-  clear();
-  setRange(cyan, 1, 8);
-  sleep(t);
-  clear();
-  setRange(blue, 1, 4);
-  sleep(t);
-  clear();
-  setRange(magenta, 1, 2);
-  sleep(t);
-  clear();
-  setRange(white, 1, 1);
-  sleep(t);
-  clear();
+void setPixel(int x, int y, uint32_t color) {
+  //  (x=1, y=8)  ...   (x=8, y=8)
+  //  ...         ...   ...
+  //  (x=1, y=1)  ...   (x=8, y=1)
+  int address = (x-1) * 8 + y - 1; // 0-indexed
+  strip.setPixelColor(address, color);
 }
 
-void setRange(uint32_t color, int startLed, int endLed) {
-  for (int i=startLed-1; i<endLed; i++) {
-    strip.setPixelColor(i, color);
+void rectangle(int x1, int y1, int x2, int y2, uint32_t color) {
+  int xa = min(x1, x2);
+  int xb = max(x1, x2);
+  int ya = min(y1, y2);
+  int yb = max(y1, y2);
+  for (int x=xa; x<xb+1; x++) {
+    for (int y=ya; y<yb+1; y++) {
+      setPixel(x, y, color);
+    }
   }
-  strip.show();
+}
+
+void gridTest() {
+  rectangle(1,1,1,1,red);
+  rectangle(2,2,2,3,yellow);
+  rectangle(1,6,1,8,blue);
+  rectangle(7,7,8,8,green);
+  rectangle(6,3,8,1,white);
+  rectangle(3,3,4,4,magenta);
+  rectangle(5,6,7,7,cyan);
+  show();
 }
 
 void initialize() {
