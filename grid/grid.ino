@@ -15,7 +15,9 @@ uint32_t green = strip.Color(0,255,0);
 uint32_t cyan = strip.Color(0,255,255);
 uint32_t blue = strip.Color(0,0,255);
 uint32_t magenta = strip.Color(255,0,255);
+uint32_t rainbow[] = {red, yellow, green, cyan, blue, magenta};
 uint32_t white = strip.Color(255,255,255);
+uint32_t black = strip.Color(0,0,0);
 
 
 void setup() {
@@ -25,8 +27,9 @@ void setup() {
 }
 
 void loop() {
-  gridTest();
-
+  // gridTest();
+  rainbowCols();
+  sleep(1000);
 }
 
 void setPixel(int x, int y, uint32_t color) {
@@ -57,6 +60,15 @@ void gridTest() {
   rectangle(6,3,8,1,white);
   rectangle(3,3,4,4,magenta);
   rectangle(5,6,7,7,cyan);
+  show();
+}
+
+void rainbowCols() {
+  for (int col=2; col<8; col++) {
+    rectangle(col,1,col,8,rainbow[col-2]);
+  }
+  rectangle(3,3,6,6,black);
+  rectangle(4,4,5,5,white);
   show();
 }
 
